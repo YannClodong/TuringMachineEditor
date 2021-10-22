@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  margin: 10px;
+  width: 80%;
+}
+
+.tab {
+  display: flex;
+  flex-direction: row;
+}
+
+.tab> * {
+  margin-left: 10px;
+}
+
+.tab-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-style: solid;
+  padding: 10px;
+  background-color: #2c3e50;
+
+  color: grey;
+  border-color: grey;
+}
+
+.active {
+  color: white;
+  border-color: white;
+}
+
+.start {
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.end {
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.clickable:active {
+  color: white;
+  border-color: white;
+}
+
+.contain-letter {
+  color: white;
+}

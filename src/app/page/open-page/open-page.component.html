@@ -1,0 +1,9 @@
+<div class="page">
+  <div class="container">
+    <h1>Projects</h1>
+    <app-project-viewer class="projects" [projectPreview]="p" *ngFor="let p of getProjects()" (pressed)="loadGraph(p)"></app-project-viewer>
+
+    <button class="button main-button" (click)="onCreatePressed()">Create</button>
+  </div>
+</div>
+

@@ -1,0 +1,16 @@
+<div class="page">
+  <div class="container">
+    <h1>Create new turring machine</h1>
+    <h3>Name: </h3>
+    <input [(ngModel)]="name">
+    <h3>Bands: </h3>
+    <app-band-editor class="band-editor"
+                     [band]="band"
+                     *ngFor="let band of bands"
+    ></app-band-editor>
+    <button (click)="bands.push({ init: [], startPosition: 'RIGHT' })" class="button">+</button>
+
+    <button class="button main-button" (click)="create()">Create</button>
+  </div>
+</div>
+

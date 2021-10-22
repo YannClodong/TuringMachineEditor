@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="tab">
+    <div class="tab-element dist1 start clickable" [ngClass]="{'active': (offset - 2 == 0) }" (click)="offset = offset - 1">{{band.readWithDelta(offset - 2)}}</div>
+    <div class="tab-element" [ngClass]="{'active': (offset - 1 == 0) }">{{band.readWithDelta(offset - 1)}}</div>
+    <div class="tab-element" [ngClass]="{'active': (offset == 0) }">{{band.readWithDelta(offset)}}</div>
+    <div class="tab-element" [ngClass]="{'active': (offset + 1 == 0) }">{{band.readWithDelta(offset + 1)}}</div>
+    <div class="tab-element dist1 end clickable" [ngClass]="{'active': (offset + 2 == 0) }" (click)="offset = offset + 1">{{band.readWithDelta(offset + 2)}}</div>
+  </div>
+</div>

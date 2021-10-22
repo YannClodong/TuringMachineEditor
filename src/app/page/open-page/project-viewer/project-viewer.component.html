@@ -1,0 +1,5 @@
+<div class="container" *ngIf="projectPreview" (click)="pressed.emit()">
+  <h1>{{projectPreview.name}}</h1>
+  <span>{{projectPreview.nbands}} Bands</span>
+  <span>{{projectPreview.nstates}} States</span>
+</div>

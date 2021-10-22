@@ -1,0 +1,4 @@
+<div class="container" *ngIf="element">
+  <app-inspector-header [text]="element.getStateName().toString()"></app-inspector-header>
+  <button (click)="element.setActive()">Set active state</button>
+</div>

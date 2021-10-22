@@ -1,0 +1,4 @@
+<div *ngIf="element" class="inspector-container">
+  <app-node-inspector *ngIf="this.isState()" [element]="getStateDrawer()"></app-node-inspector>
+  <app-transition-inspector *ngIf="this.isTransition()" [element]="getTransitionDrawer()"></app-transition-inspector>
+</div>

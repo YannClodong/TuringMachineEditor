@@ -1,0 +1,19 @@
+<div class="band-container">
+  <p>Band {{bandNumber}}</p>
+  <input placeholder="Initial content" [(ngModel)]="content" (keyup)="updateBand()">
+  <div class="tools">
+    <div class="button delete">
+      <i class="fas fa-trash-alt"></i>
+    </div>
+    <div class="fill-gap"></div>
+    <div>start pos: </div>
+    <div class="button toggle"
+        [ngClass]="{ 'toggle-activated': band.startPosition == 'LEFT' }"
+        (click)="band.startPosition = 'LEFT'"
+    >L</div>
+    <div class="button toggle"
+         [ngClass]="{ 'toggle-activated': band.startPosition == 'RIGHT' }"
+         (click)="band.startPosition = 'RIGHT'"
+    >R</div>
+  </div>
+</div>

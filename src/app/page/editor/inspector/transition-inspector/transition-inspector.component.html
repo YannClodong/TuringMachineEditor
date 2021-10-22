@@ -1,0 +1,9 @@
+<div class="container" *ngIf="this.element">
+  <app-inspector-header [text]="this.element.from + ' -> ' + this.element.to"></app-inspector-header>
+
+  <textarea class="operation-editor"
+            (keyup)="onOperationInput($event, operation)"
+            #operation
+            value="{{this.element.getOperationString()}}"
+  ></textarea>
+</div>
