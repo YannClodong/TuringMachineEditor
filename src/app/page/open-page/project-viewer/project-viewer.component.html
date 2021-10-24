@@ -1,5 +1,6 @@
 <div class="container" *ngIf="projectPreview" (click)="pressed.emit()">
   <h1>{{projectPreview.name}}</h1>
   <span>{{projectPreview.nbands}} Bands</span>
-  <span>{{projectPreview.nstates}} States</span>
+  <span>{{projectPreview.nstates}} States</span><br>
+  <button class="button" (click)="onDelete(); $event.stopImmediatePropagation();">Supprimer</button>
 </div>

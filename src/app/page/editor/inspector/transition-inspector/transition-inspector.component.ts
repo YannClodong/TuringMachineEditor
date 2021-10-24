@@ -21,7 +21,6 @@ export class TransitionInspectorComponent implements OnInit {
   onOperationInput($event: KeyboardEvent, input: HTMLTextAreaElement) {
     if(!this.element) return;
     const text = input.value;
-    console.log(this.element.machineDrawer.machine.bands.length);
     const parsingError = !TurringAction.canDeserialize(text, this.element.machineDrawer.machine.bands.length);
 
     if(parsingError) {

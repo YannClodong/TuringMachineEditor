@@ -29,12 +29,21 @@ export class TurringGraphManagerService {
 
   savemachine(id: number, machine: SavedTurringMachine) {
     this.load();
-    const tuple = this.machines.find(s => s.id === id)
-    if(tuple) {
-      tuple.machine = machine;
-      this.save();
+    const tuple = this.machines.find(s => s.id == id)
+    let name = "Noname"
+    if (tuple) {
+      name = tuple.name;
+      this.machines = this.machines.filter(m => m.id != id);
     }
+    this.machines.push({
+      id,
+      name,
+      machine
+    });
+    this.save();
   }
+
+
 
   create(name: string, bands: SavedBand[]) {
     const machine = {
@@ -78,6 +87,12 @@ export class TurringGraphManagerService {
     const machine = this.machines.find(s => s.id == id)?.machine
     if(!machine) throw "Graph not found";
     return machine;
+  }
+
+  remove(id: number) {
+    this.load()
+    this.machines = this.machines.filter(m => m.id != id);
+    this.save()
   }
 
 }

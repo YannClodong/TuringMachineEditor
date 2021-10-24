@@ -10,6 +10,7 @@ export type SavedTurringMachine = {
 
 export default class TurringMachine {
   public states: State[] = []
+  private finished = false;
   //private edges: Transition[] = []
   private statePointer: number = 0;
   public nband = 0;
@@ -62,28 +63,38 @@ export default class TurringMachine {
   }
 
   public makeExecutionError() {
+    this.finished = true;
     alert("Finish with error case")
   }
 
   public makeExecutionSuccess() {
+    this.finished = true
     alert("Success")
   }
 
   public tick() {
+    const state = this.states.find(s => s.nodeName == this.statePointer)
+    if(!state) throw `State ${state} don't exist.`;
+
+    if(this.finished) return;
+
     try {
-      const newState = this.states[this.statePointer].trigger();
+      const newState = state.trigger();
       this.moveToState(newState);
     } catch(err) {
       console.log(err)
       this.makeExecutionError();
+      this.finished = true;
     }
   }
 
-  public moveToState(state: number) {
-    if(state < 0 || state >= this.states.length) throw `State ${state} don't exist.`;
-    this.statePointer = state;
+  public moveToState(stateId: number) {
+    //if(state < 0 || state >= this.states.length)
+    const state = this.states.find(s => s.nodeName == stateId);
+    if(!state) throw `State ${state} don't exist.`;
+    this.statePointer = state.nodeName;
 
-    if(this.states[state].final)
+    if(state.final)
       this.makeExecutionSuccess();
   }
 
@@ -108,10 +119,19 @@ export default class TurringMachine {
   public reset() {
     this.bands.forEach(b => b.reset());
     this.statePointer = 0;
+    this.finished = false;
   }
 
   setStateActive(stateName: number) {
     this.reset();
-    while(this.statePointer != stateName) this.tick();
+    while(this.statePointer != stateName && !this.finished) this.tick();
+  }
+
+  isFinished() {
+    return this.finished;
+  }
+
+  retry() {
+    this.finished = false;
   }
 }

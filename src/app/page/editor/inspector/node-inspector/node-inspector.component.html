@@ -1,4 +1,8 @@
 <div class="container" *ngIf="element">
   <app-inspector-header [text]="element.getStateName().toString()"></app-inspector-header>
-  <button (click)="element.setActive()">Set active state</button>
+  <button (click)="element.setActive()">Execute while state isn't active</button>
+  <div class="checkbox-container" [ngClass]="{ 'checked': element.isFinal() }" (click)="element.toggleFinal()">
+    <div class="checkbox" [ngClass]="{ 'box-checked': element.isFinal() }" ></div>
+    Is final state
+  </div>
 </div>

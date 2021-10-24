@@ -63,4 +63,28 @@ export default class Band {
       startPosition: this.startPosition
     } as SavedBand
   }
+
+  public getInitialValueString() {
+    if(this.initialData.find(v => v.length != 1)) {
+      return this.initialData.join(" | ");
+    } else {
+      return this.initialData.join("");
+    }
+  }
+
+  public setInitialValues(i: string) {
+    this.initialData = getValue(i);
+  }
+}
+
+const getValue = (str: string) => {
+  if(str.includes("|")) {
+    return str.split("|").map(v => v.trim()).filter(v => v != "");
+  } else {
+    const res = []
+    for(let i = 0; i < str.length; i++) {
+      res.push(str.slice(i, i + 1));
+    }
+    return res;
+  }
 }

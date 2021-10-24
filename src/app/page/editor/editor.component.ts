@@ -21,11 +21,14 @@ export class EditorComponent implements OnInit {
   drawInspector = false
   public machine?: TurringMachine;
   private machineDrawer?: TurringMachineDrawer;
+  private machineId?: number;
   private drawables: IDrawable[] = [];
   private ctx: CanvasRenderingContext2D|null = null;
   private selection: IDrawable[] = []
   public inspectorItem?: IDrawable;
   public bands: Band[] = [];
+
+  public showBandEditor = false;
 
   private run = false;
 
@@ -42,6 +45,7 @@ export class EditorComponent implements OnInit {
     aroute.params.subscribe((values) => {
       const graphId = values["graph"] as number;
       this.drawables = [];
+      this.machineId = graphId;
       this.machine = TurringMachine.createFromSave(graphManager.get(graphId))
 
       this.bands = []
@@ -257,6 +261,7 @@ export class EditorComponent implements OnInit {
 
   onMachineTick() {
     if(!this.machine) return;
+    this.machine.retry();
     this.machine.tick();
     this.draw();
   }
@@ -271,9 +276,9 @@ export class EditorComponent implements OnInit {
   }
 
   save() {
-    if(!this.machine) return;
-
-    localStorage.setItem("turring", JSON.stringify(this.machine.getSavable()));
+    if(!this.machineId || !this.machine) return;
+    this.graphManager.savemachine(this.machineId, this.machine.getSavable());
+    //localStorage.setItem("turring", JSON.stringify(this.machine.getSavable()));
   }
 
   onMachineRun() {
@@ -285,6 +290,8 @@ export class EditorComponent implements OnInit {
   RunClock() {
     if(!this.run) return;
     this.onMachineTick();
+
+    if(this.machine?.isFinished()) return;
     setTimeout(() => this.RunClock(), 500);
   }
 }

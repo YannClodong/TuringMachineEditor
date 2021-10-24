@@ -24,6 +24,8 @@ export default class TurringStateDrawer implements IDrawable {
 
   draw(ctx: CanvasRenderingContext2D, utils: DrawingUtils, selected: boolean): void {
     let color = "#2c3e50"
+    if(this.state.final)
+      color = "#27ae60";
     if(selected)
       color = "#d35400";
     const border = color;
@@ -145,5 +147,17 @@ export default class TurringStateDrawer implements IDrawable {
 
   setActive() {
     this.machineDrawer.machine.setStateActive(this.getStateName());
+  }
+
+  isFinal() {
+    return this.state.final;
+  }
+
+  setFinal(value: boolean) {
+    this.state.final = value;
+  }
+
+  toggleFinal() {
+    this.state.final = !this.state.final;
   }
 }

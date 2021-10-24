@@ -58,7 +58,7 @@ export default class AtomicTurringOperation {
   }
 
   public canTrigger() {
-    return this.reading.map((r, i) => this.machine.readband(i) == r || (this.machine.readband(i) == blankCharacter && r == "b")).reduce((pv, cv) => pv && cv, true)
+    return this.reading.map((r, i) => this.machine.readband(i) == r || (this.machine.readband(i) == blankCharacter && r == "b") || r == ".").reduce((pv, cv) => pv && cv, true)
   }
 
   public trigger() {
@@ -66,8 +66,12 @@ export default class AtomicTurringOperation {
     if(!conditionReached) return false;
 
     for(const {v, i} of this.writing.map((v, i) => { return { v: v, i: i }})) {
-      this.machine.writeonband(i, v == "b" ? blankCharacter : v);
-      this.machine.movebandpointer(i, this.movements[i]);
+      if(v == ".") {
+        this.machine.movebandpointer(i, this.movements[i]);
+      } else {
+        this.machine.writeonband(i, v == "b" ? blankCharacter : v);
+        this.machine.movebandpointer(i, this.movements[i]);
+      }
     }
     return true;
   }
