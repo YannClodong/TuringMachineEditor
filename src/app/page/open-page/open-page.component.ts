@@ -25,4 +25,18 @@ export class OpenPageComponent implements OnInit {
   onCreatePressed() {
     this.router.navigate(["new"]);
   }
+
+  onExportAll() {
+    this.graphManager.exportAll();
+  }
+
+  importMachines(fileImport: HTMLInputElement) {
+    const files = fileImport.files
+    if(files && files.length == 1) {
+      files[0].text().then(s => {
+        this.graphManager.importMachines(s);
+        alert("Import complete");
+      })
+    }
+  }
 }

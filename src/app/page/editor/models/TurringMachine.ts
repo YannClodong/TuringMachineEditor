@@ -4,9 +4,8 @@ import Transition from "./Transition";
 
 export type SavedTurringMachine = {
   bands: SavedBand[],
-  states: SavableState[]
+  states: SavableState[],
 }
-
 
 export default class TurringMachine {
   public states: State[] = []
@@ -69,7 +68,8 @@ export default class TurringMachine {
 
   public makeExecutionSuccess() {
     this.finished = true
-    alert("Success")
+    const state = this.states.find(s => s.nodeName == this.statePointer)
+    if(state) alert(state.successMessage)
   }
 
   public tick() {
@@ -112,7 +112,7 @@ export default class TurringMachine {
   getSavable() {
     return {
       states: this.states.map(s => s.getSavable()),
-      bands: this.bands.map(b => b.getSavable())
+      bands: this.bands.map(b => b.getSavable()),
     } as SavedTurringMachine
   }
 
@@ -133,5 +133,38 @@ export default class TurringMachine {
 
   retry() {
     this.finished = false;
+  }
+
+  public convertToPapazianSyntax(machineName: string, successMessage: string, failMessage: string, transpositionTable: { from: string, to: string }[]) {
+    if(!this.states.find(s => s.final))
+    {
+      alert("You need to specified a final state to your graph")
+      throw "No final state"
+    }
+
+    const result = `NEW ${machineName} ${this.bands.length}\n` +
+      "START @0\n" +
+      "END " + this.states.filter(s => s.final).map(s => "@" + s.nodeName + " \"" + (s.successMessage || "SUCCESS")) + "\"\n" +
+      "UNDEFINED @NO \"" + failMessage + "\"\n" +
+      "\n\n\n" +
+      this.states.map(s => s.toPapazian(transpositionTable)).join("\n\n");
+    return result;
+  }
+
+  public getAlphabet() {
+    let alphabet: string[] = []
+    this.bands.forEach(b => {
+      alphabet.push(...b.initialData)
+    })
+    this.states.forEach(s => {
+      s.transitions.forEach(t => {
+        t.action.conditions.forEach(c => {
+          alphabet.push(...c.writing);
+          alphabet.push(...c.reading);
+        })
+      })
+    })
+    alphabet = alphabet.filter((l, i) => l != "." && alphabet.indexOf(l) == i)
+    return alphabet;
   }
 }

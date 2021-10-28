@@ -28,6 +28,7 @@
     <app-toolbox-button [offsetX]="10" icon="fas fa-step-backward" (click)="onMachineReset()"></app-toolbox-button>
     <app-toolbox-button [offsetX]="10" icon="fas fa-stopwatch" (click)="onMachineRun()"></app-toolbox-button>
     <app-toolbox-button [offsetX]="10" icon="fas fa-tape" (click)="showBandEditor = true"></app-toolbox-button>
+    <app-toolbox-button [offsetX]="10" icon="fas fa-file-export" (click)="showToPapazian = true"></app-toolbox-button>
   </div>
 
   <div class="absolute fill center" *ngIf="showBandEditor" (click)="showBandEditor = false; this.onMachineReset();">
@@ -38,6 +39,25 @@
         <input value="{{band.getInitialValueString()}}" #bandValue (change)="band.setInitialValues(bandValue.value)">
       </div>
 
+    </div>
+  </div>
+
+  <div class="absolute fill center" *ngIf="showToPapazian" (click)="showToPapazian = false; this.onMachineReset();">
+    <div class="edit-tape-container" (click)="$event.stopImmediatePropagation()">
+      <h1>Export to papazian simulator</h1>
+      <h2>Tansposition table</h2>
+      <table>
+        <tr *ngFor="let l of this.transpositionTable">
+          <td>{{l.from}}</td>
+          <td>
+            <input style="width: 100%;" [(ngModel)]="l.to" [ngClass]="{ 'error-input': l.error }" (change)="checkTranspositionTable()">
+          </td>
+        </tr>
+      </table>
+      <h2>Error value</h2>
+      <input #errorMessageInput value="INVALID">
+
+      <button (click)="toPapazian(errorMessageInput.value)">Convert</button>
     </div>
   </div>
 

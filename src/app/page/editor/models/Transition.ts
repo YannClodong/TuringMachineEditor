@@ -9,4 +9,8 @@ export default class Transition {
     public direction?: Vector) {
 
   }
+
+  toPapazian(transpositionTable: { from: string, to: string }[]) {
+    return this.action.toPapazian(transpositionTable).map(trs => trs + " @" + this.end).join("\n")
+  }
 }

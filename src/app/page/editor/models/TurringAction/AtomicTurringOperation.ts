@@ -18,9 +18,13 @@ export type  SavedAtomicTurringOperation = {
   movements: ("RIGHT"|"LEFT"|"STAT")[]
 }
 
+type Subatomic = { read: string, write: string, move: "RIGHT"|"LEFT"|"STAT" }
+type Combinaison = Subatomic[]
+type Possibilities = Subatomic[]
+
 export default class AtomicTurringOperation {
 
-  constructor(private reading: string[], private writing: string[], private movements: ("RIGHT"|"LEFT"|"STAT")[], private machine: TurringMachine) {
+  constructor(public reading: string[], public writing: string[], public movements: ("RIGHT"|"LEFT"|"STAT")[], private machine: TurringMachine) {
     this.checkErrors();
   }
 
@@ -103,6 +107,61 @@ export default class AtomicTurringOperation {
       reads: this.reading,
       writes: this.writing,
       movements: this.movements
+    }
+  }
+
+
+
+  toPapazian(transpositionTable: { from: string, to: string }[]) {
+    const alphabet = this.machine.getAlphabet();
+    const elements = this.reading.map((v, i) => {
+      return {
+        read: v,
+        write: this.writing[i],
+        move: this.movements[i]
+      }
+    }).map(e => {
+      if(e.read == ".") {
+        return alphabet.map(a => {
+          return {
+            read: a,
+            write: e.write == "." ? (e.read == "." ? a : e.read) : e.write,
+            move: e.move
+          } as Subatomic
+        })
+      } else {
+        return [{
+          read: e.read,
+          write: e.write == "." ? e.read : e.write,
+          move: e.move
+        } as Subatomic]
+      }
+    })
+
+    const combis = this.customScalar(1, elements, []);
+    console.log(combis)
+
+    const result = combis.map(c => {
+      return {
+        read: c.map(c => c.read).map(c => transpositionTable.find(t => t.from == c)?.to || "ERR"),
+        write: c.map(c => c.write).map(c => transpositionTable.find(t => t.from == c)?.to || "ERR"),
+        move: c.map(c => c.move)
+      }
+    })
+
+    return result.map(r => r.read.map(re => "'" + re).join(",") + " " + r.write.map(w => "'" + w).join(",") + " " + r.move.map(m => m == "RIGHT" ? "R" : (m == "LEFT" ? "L" : "S")).join(","))
+  }
+
+  private customScalar(i: number, elements: Possibilities[], current: Combinaison[]): Combinaison[] {
+    if(current.length == 0)
+      return this.customScalar(1, elements, elements[0].map(e => [e]));
+    else {
+      if(i >= this.reading.length) return current;
+      return this.customScalar(i + 1, elements, elements[i].map(e => {
+        return current.map(c => {
+          return [...c, e];
+        })
+      }).reduce((pv, cv) => [...pv, ...cv], []))
     }
   }
 

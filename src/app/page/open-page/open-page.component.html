@@ -4,6 +4,9 @@
     <app-project-viewer class="projects" [projectPreview]="p" *ngFor="let p of getProjects()" (pressed)="loadGraph(p)"></app-project-viewer>
 
     <button class="button main-button" (click)="onCreatePressed()">Create</button>
+    <button class="button main-button" (click)="onExportAll()">Export all</button>
+    <h1>Import machines</h1>
+    <input type="file" #fileImport (change)="importMachines(fileImport)">
   </div>
 </div>
 

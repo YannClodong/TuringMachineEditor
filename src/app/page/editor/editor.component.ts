@@ -7,7 +7,7 @@ import DrawingUtils from "./models/drawers/DrawingUtils";
 import Vector from "./models/utils/vector";
 import Band from "./models/Turring/Band";
 import {ActivatedRoute} from "@angular/router";
-import {TurringGraphManagerService} from "../../services/turring-graph-manager.service";
+import {download, TurringGraphManagerService} from "../../services/turring-graph-manager.service";
 
 @Component({
   selector: 'app-editor',
@@ -21,12 +21,15 @@ export class EditorComponent implements OnInit {
   drawInspector = false
   public machine?: TurringMachine;
   private machineDrawer?: TurringMachineDrawer;
+  public showToPapazian = false;
   private machineId?: number;
   private drawables: IDrawable[] = [];
   private ctx: CanvasRenderingContext2D|null = null;
   private selection: IDrawable[] = []
   public inspectorItem?: IDrawable;
   public bands: Band[] = [];
+
+  public transpositionTable: { from: string, to: string, error: boolean }[] = []
 
   public showBandEditor = false;
 
@@ -53,6 +56,14 @@ export class EditorComponent implements OnInit {
       console.log(this.machine)
 
       this.machineDrawer = new TurringMachineDrawer(this.machine);
+
+      this.transpositionTable = this.machine.getAlphabet().map(l => {
+        return {
+          from: l,
+          to: l == "b" ? "_" : l,
+          error: false
+        }
+      })
 
       this.addelement(this.machineDrawer)
       this.onMachineReset();
@@ -293,5 +304,27 @@ export class EditorComponent implements OnInit {
 
     if(this.machine?.isFinished()) return;
     setTimeout(() => this.RunClock(), 500);
+  }
+
+  checkTranspositionTable() {
+    let error = false;
+    this.transpositionTable.forEach(v => {
+      if(v.to.length != 1) {
+        v.error = true;
+        error = true;
+      }
+      else if(this.transpositionTable.filter(v2 => v2.to == v.to).length != 1) {
+        v.error = true;
+        error = true;
+      } else {
+        v.error = false;
+      }
+    })
+    return error;
+  }
+
+  toPapazian(errorMessage: string) {
+    if(!this.machine || this.checkTranspositionTable()) return;
+    download("Papazian.txt", this.machine.convertToPapazianSyntax("machineName", "VALID", errorMessage, this.transpositionTable))
   }
 }

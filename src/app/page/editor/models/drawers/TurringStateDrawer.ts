@@ -160,4 +160,12 @@ export default class TurringStateDrawer implements IDrawable {
   toggleFinal() {
     this.state.final = !this.state.final;
   }
+
+  getSuccessMessage() {
+    return this.state.successMessage
+  }
+
+  setSuccessMessage(value: string) {
+    this.state.successMessage = value;
+  }
 }

@@ -27,10 +27,10 @@ export class TurringGraphManagerService {
     localStorage.setItem("machines", JSON.stringify(this.machines));
   }
 
-  savemachine(id: number, machine: SavedTurringMachine) {
+  savemachine(id: number, machine: SavedTurringMachine, machineName?: string) {
     this.load();
     const tuple = this.machines.find(s => s.id == id)
-    let name = "Noname"
+    let name = machineName || "Noname"
     if (tuple) {
       name = tuple.name;
       this.machines = this.machines.filter(m => m.id != id);
@@ -95,4 +95,38 @@ export class TurringGraphManagerService {
     this.save()
   }
 
+  exportAll() {
+    this.load();
+    download("AllTurringGraphs.json", JSON.stringify(this.machines));
+  }
+
+  exportOne(id: number) {
+    this.load();
+    const machine = this.machines.find(m => m.id == id)
+    if(!machine) throw "Machine not found";
+    download(machine.name + ".json", JSON.stringify(machine));
+  }
+
+  importMachines(text: string) {
+    this.load();
+    const machines: SavedDictionnaryTuple[] = JSON.parse(text)
+    for(const machine of machines)
+      this.savemachine(this.getFreeId(), machine.machine, machine.name)
+    this.save();
+  }
+
+}
+
+
+export function download(filename: string, text: string) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
 }

@@ -12,7 +12,7 @@ export default class Band {
   private max: number = 0
 
 
-  constructor(private initialData: string[], private startPosition: "RIGHT"|"LEFT") {
+  constructor(public initialData: string[], private startPosition: "RIGHT"|"LEFT") {
     this.reset();
   }
 

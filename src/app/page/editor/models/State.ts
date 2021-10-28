@@ -8,6 +8,7 @@ export type SavableState = {
   x: number,
   y: number,
   final: boolean,
+  successMessage?: string,
   transitions: {
     end: number,
     direction: Vector | undefined,
@@ -17,7 +18,7 @@ export type SavableState = {
 
 export default class State {
 
-  constructor(public nodeName: number, public x: number, public y: number, public final: boolean, public transitions: Transition[] = []) {
+  constructor(public nodeName: number, public x: number, public y: number, public final: boolean, public transitions: Transition[] = [], public successMessage?: string) {
   }
 
   public connectTo(state: State, operation: TurringOperation) {
@@ -39,6 +40,7 @@ export default class State {
       x: this.x,
       y: this.y,
       final: this.final,
+      successMessage: this.successMessage,
       transitions: this.transitions.map(tr => {
         return  {
           end: tr.end,
@@ -52,7 +54,7 @@ export default class State {
   static createFromSave(state: SavableState, machine: TurringMachine) {
     return new State(state.nodeName, state.x, state.y, state.final, state.transitions.map(t => {
       return new Transition(state.nodeName, t.end, TurringOperation.create(t.operation, machine), t.direction ? new Vector(t.direction.x, t.direction.y) : undefined)
-    }))
+    }), state.successMessage)
   }
 
   public addTransition(end: number, direction?: Vector, operation: TurringOperation = TurringOperation.empty()) {
@@ -67,5 +69,10 @@ export default class State {
 
   public transitionExistTo(state: number): boolean {
     return !!this.transitions.find(t => t.end == state);
+  }
+
+  toPapazian(transpositionTable: { from: string, to: string }[]) {
+    if(this.transitions.length == 0) return "";
+    return "FROM @" + this.nodeName + "\n" + this.transitions.map(tr => tr.toPapazian(transpositionTable)).join("\n");
   }
 }

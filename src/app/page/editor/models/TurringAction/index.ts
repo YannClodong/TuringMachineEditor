@@ -56,4 +56,8 @@ export default class TurringOperation {
     return new TurringOperation(save.map(s => AtomicTurringOperation.restore(s, machine)));
   }
 
+  public toPapazian(transpositionTable: { from: string, to: string }[]) {
+    return this.conditions.map(c => c.toPapazian(transpositionTable)).reduce((pv, cv) => [...pv, ...cv])
+  }
+
 }

@@ -2,7 +2,8 @@
   <app-inspector-header [text]="element.getStateName().toString()"></app-inspector-header>
   <button (click)="element.setActive()">Execute while state isn't active</button>
   <div class="checkbox-container" [ngClass]="{ 'checked': element.isFinal() }" (click)="element.toggleFinal()">
-    <div class="checkbox" [ngClass]="{ 'box-checked': element.isFinal() }" ></div>
+    <div class="checkbox" [ngClass]="{ 'box-checked': element.isFinal() }"></div>
     Is final state
   </div>
+  <input placeholder="Success message" value="{{element.getSuccessMessage()}}" (change)="element.setSuccessMessage(successMessageTextbox.value)" #successMessageTextbox>
 </div>
