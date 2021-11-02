@@ -8,7 +8,7 @@
                      [band]="band"
                      *ngFor="let band of bands"
     ></app-band-editor>
-    <button (click)="bands.push({ init: [], startPosition: 'RIGHT' })" class="button">+</button>
+    <button (click)="bands.push({ initialData: [], startPosition: 'RIGHT' })" class="button">+</button>
 
     <button class="button main-button" (click)="create()">Create</button>
   </div>

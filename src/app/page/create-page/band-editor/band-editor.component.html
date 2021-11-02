@@ -2,7 +2,7 @@
   <p>Band {{bandNumber}}</p>
   <input placeholder="Initial content" [(ngModel)]="content" (keyup)="updateBand()">
   <div class="tools">
-    <div class="button delete">
+    <div class="button delete" *ngIf="canDelete">
       <i class="fas fa-trash-alt"></i>
     </div>
     <div class="fill-gap"></div>

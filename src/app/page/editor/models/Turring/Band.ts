@@ -1,5 +1,6 @@
 export type SavedBand = {
-  init: string[],
+  initialData: string[],
+  init?: string[],
   startPosition: "RIGHT"|"LEFT"
 }
 
@@ -12,7 +13,7 @@ export default class Band {
   private max: number = 0
 
 
-  constructor(public initialData: string[], private startPosition: "RIGHT"|"LEFT") {
+  constructor(public initialData: string[], public startPosition: "RIGHT"|"LEFT") {
     this.reset();
   }
 
@@ -23,9 +24,9 @@ export default class Band {
     }
 
     if(this.startPosition == "RIGHT") {
-      this.pointer = this.initialData.length;
+      this.pointer = this.initialData.length - 1;
     } else {
-      this.pointer = -1;
+      this.pointer = 0;
     }
   }
 
@@ -59,7 +60,7 @@ export default class Band {
 
   public getSavable() {
     return {
-      init: this.initialData,
+      initialData: this.initialData,
       startPosition: this.startPosition
     } as SavedBand
   }

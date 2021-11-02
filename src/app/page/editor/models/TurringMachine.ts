@@ -26,7 +26,8 @@ export default class TurringMachine {
   }
 
   static createFromSave(save: SavedTurringMachine) {
-    const machine = new TurringMachine(save.bands.map(b => new Band(b.init, b.startPosition)))
+
+    const machine = new TurringMachine(save.bands.map(b => new Band(b.initialData || b.init, b.startPosition)))
     save.states.forEach(s => machine.states.push(State.createFromSave(s, machine)))
     return machine;
   }

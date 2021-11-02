@@ -9,17 +9,23 @@ import Band, {SavedBand} from "../../editor/models/Turring/Band";
 export class BandEditorComponent implements OnInit {
 
   @Input() bandNumber: number = 1;
+  @Input() canDelete: boolean = true;
   @Input() deleteBand: () => void = () => {}
-  @Input() band: SavedBand = { init: [], startPosition: "RIGHT" }
+  @Input() band: SavedBand = { initialData: [], startPosition: "RIGHT" }
 
   public content: string = "";
   constructor() { }
 
   ngOnInit(): void {
+    if(this.band.initialData.find(v => v.length != 1)) {
+      this.content = this.band.initialData.join("|")
+    } else {
+      this.content = this.band.initialData.join("")
+    }
   }
 
   updateBand() {
-    this.band.init = this.getArray();
+    this.band.initialData = this.getArray();
   }
 
   private getArray() {

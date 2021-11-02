@@ -34,10 +34,13 @@
   <div class="absolute fill center" *ngIf="showBandEditor" (click)="showBandEditor = false; this.onMachineReset();">
     <div class="edit-tape-container center" (click)="$event.stopImmediatePropagation()">
       <h1>Set band value</h1>
-      <div *ngFor="let band of bands; let i = index;" class="center" style="width: 100%;">
+      <div *ngFor="let band of bands; let i = index;" style="width: 90%;">
+        <app-band-editor [bandNumber]="i+1" [band]="band" [canDelete]="false"></app-band-editor>
+      </div>
+      <!-- <div *ngFor="let band of bands; let i = index;" class="center" style="width: 100%;">
         <h3>Band {{i + 1}}</h3>
         <input value="{{band.getInitialValueString()}}" #bandValue (change)="band.setInitialValues(bandValue.value)">
-      </div>
+      </div> -->
 
     </div>
   </div>
