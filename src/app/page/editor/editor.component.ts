@@ -324,7 +324,15 @@ export class EditorComponent implements OnInit {
   }
 
   toPapazian(errorMessage: string) {
-    if(!this.machine || this.checkTranspositionTable()) return;
+    if(!this.machine) return;
+    this.transpositionTable = this.machine.getAlphabet().map(l => {
+      return {
+        from: l,
+        to: l == "b" ? "_" : l,
+        error: false
+      }
+    })
+    if(this.checkTranspositionTable()) return;
     download("Papazian.txt", this.machine.convertToPapazianSyntax("machineName", "VALID", errorMessage, this.transpositionTable))
   }
 }
