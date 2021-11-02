@@ -323,15 +323,25 @@ export class EditorComponent implements OnInit {
     return error;
   }
 
-  toPapazian(errorMessage: string) {
+  checkTranspo() {
     if(!this.machine) return;
-    this.transpositionTable = this.machine.getAlphabet().map(l => {
+    const transpositionTable = this.machine.getAlphabet().map(l => {
       return {
         from: l,
         to: l == "b" ? "_" : l,
         error: false
       }
     })
+
+    const addition = [...this.transpositionTable, ...transpositionTable];
+    const union = addition.filter((e, i) => i === addition.findIndex(v => v.from === e.from))
+
+    this.transpositionTable = union;
+  }
+
+  toPapazian(errorMessage: string) {
+    if(!this.machine) return;
+
     if(this.checkTranspositionTable()) return;
     download("Papazian.txt", this.machine.convertToPapazianSyntax("machineName", "VALID", errorMessage, this.transpositionTable))
   }
