@@ -1,7 +1,7 @@
 # Editeur/Simulateur de machine de Turring
 
 ## ❓ What is it ?
-TurringEditor est un projet Angular permettant d'éditer et de simuler des machines de turring déterministe à plusieurs bandes.
+TurringMachineEditor est un projet Angular permettant d'éditer et de simuler des machines de turring déterministe à plusieurs bandes.
 
 ## 🕹️ Want to test it ?
 
