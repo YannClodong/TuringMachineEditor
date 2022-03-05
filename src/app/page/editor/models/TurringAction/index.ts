@@ -60,4 +60,15 @@ export default class TurringOperation {
     return this.conditions.map(c => c.toPapazian(transpositionTable)).reduce((pv, cv) => [...pv, ...cv])
   }
 
+
+  conditionsIntersects(other: TurringOperation) {
+    for(const action1 of other.conditions) {
+      for(const action2 of this.conditions) {
+        if(other === this && action1 === action2) continue;
+        if(action1.intersectWith(action2))
+          return true;
+      }
+    }
+    return false;
+  }
 }

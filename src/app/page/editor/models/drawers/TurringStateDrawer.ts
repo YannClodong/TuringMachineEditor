@@ -23,18 +23,24 @@ export default class TurringStateDrawer implements IDrawable {
 
 
   draw(ctx: CanvasRenderingContext2D, utils: DrawingUtils, selected: boolean): void {
-    let color = "#2c3e50"
+    let color = "#2c3e50"     // Normal state
     if(this.state.final)
-      color = "#27ae60";
+      color = "#27ae60";      // Final State
     if(selected)
-      color = "#d35400";
-    const border = color;
-    let fill = "#ecf0f1";
-    if(this.machineDrawer.machine.isNodeActive(this.getStateName()))
-      fill = "#3498db";
+      color = "#d35400";      // Selected state
 
+    const border = color;
+    let fill = "#ecf0f1";     // Normal state
+    if(this.machineDrawer.machine.isNodeActive(this.getStateName()))
+      fill = "#3498db";       // Active state
+
+    // Compute position in screen space
     const loc = utils.getPosition(this.state.x, this.state.y);
+
+    // Compute scale in screen space
     const rd = utils.getScale(stateRadius);
+
+    // Styling the node
     ctx.lineWidth = utils.getScale(5);
     ctx.font = Math.floor(utils.getScale(48)) + 'px sans-serif';
     ctx.strokeStyle = border;
@@ -46,9 +52,13 @@ export default class TurringStateDrawer implements IDrawable {
     ctx.fillStyle = border;
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
+
+    // Labeling the node
     ctx.fillText(this.state.nodeName.toString(), loc.x, loc.y + 5);
 
     if(this.drawingPath) {
+
+      // Draw the currently creating arrow
       utils.drawArrowFree(this, this.end)
       this.drawingPath = false;
     }
@@ -59,15 +69,18 @@ export default class TurringStateDrawer implements IDrawable {
   }
 
   children(): IDrawable[] {
+    // Return the children
     return this.edgesDrawer;
   }
 
   onDrag(x: number, y: number): void {
+    // Move the node
     this.state.y = y;
     this.state.x = x;
   }
 
   onDragRight(x: number, y: number): void {
+    // Start creating a transition
     this.drawingPath = true;
     this.end = new Vector(x, y);
   }
@@ -112,18 +125,32 @@ export default class TurringStateDrawer implements IDrawable {
   }
 
   onDropRight(x: number, y: number, over?: IDrawable): void {
+    // Create transition between this state and the state whom are bellow the cursor on dropping
+
+    // Disabling transition edition
     this.drawingPath = false;
+
+    // Check if there is something bellow the cursor
     if(over && over.getType() == DrawableType.TURRING_STATE) {
       const target = over as TurringStateDrawer;
+
+      // Check if we want to create an in-place transition
       if(target.getStateName() === this.getStateName()) {
         const pos = new Vector(this.state.x, this.state.y);
         const direction = new Vector(x, y).sub(pos);
+
+        // Create the transition
         this.createTransition(over as TurringStateDrawer, direction.normalize());
       } else {
+
+        // Create the straight transition
         this.createTransition(over as TurringStateDrawer);
       }
     } else if(!over) {
+      // If there is nothing bellow we create a new node
       const drawer = this.machineDrawer.createState(new Vector(x, y))
+
+      // And we link it with the starting node
       this.createTransition(drawer);
     }
   }
@@ -132,8 +159,10 @@ export default class TurringStateDrawer implements IDrawable {
   }
 
   onSupprButtonPressed(): void {
+    // If this is the initial node we can't remove it
     if(this.getStateName() == 0) return;
 
+    // Otherwise, remove the node
     this.machineDrawer.removeState(this.getStateName());
   }
 
@@ -151,10 +180,6 @@ export default class TurringStateDrawer implements IDrawable {
 
   isFinal() {
     return this.state.final;
-  }
-
-  setFinal(value: boolean) {
-    this.state.final = value;
   }
 
   toggleFinal() {

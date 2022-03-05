@@ -39,6 +39,8 @@ export default class DrawingUtils {
 
     ctx.beginPath();
     if(debutState.getStateName() == endState.getStateName()) {
+
+      // Draw round arrow
       if(!direction)
         direction = new Vector(0, 1);
       const p = direction.perpendicular().normalize().scalar(0.3);
@@ -54,6 +56,8 @@ export default class DrawingUtils {
       ctx.moveTo(p1.x, p1.y);
       ctx.bezierCurveTo(der1.x, der1.y, der2.x, der2.y, p2.x, p2.y);
     } else {
+
+      // Draw straight arrow
       const end = this.getPositionFromVector(endState.getPosition());
       const v = end.sub(loc).normalize();
       const relV = relPos == "CENTER" ? new Vector(0, 0) : (relPos == "LEFT" ? v.perpendicular().scalar(doubleSensDelta) : v.perpendicular().scalar(-doubleSensDelta))
@@ -69,6 +73,7 @@ export default class DrawingUtils {
     }
     ctx.stroke();
 
+    // Draw the head of the arrow
     ctx.beginPath();
     ctx.moveTo(final.pt.x, final.pt.y);
     const baseArrow = final.pt.sub(final.direction.scalar(16));
@@ -80,8 +85,8 @@ export default class DrawingUtils {
     ctx.fill();
   }
 
+  // Draw arrow between a node and a point
   drawArrowFree(debut: TurringStateDrawer, end: Vector) {
-    //const end = utils.getPosition(this.endX, this.endY);
     const ctx = this.ctx;
     const loc = this.getPositionFromVector(debut.getPosition());
     let v = end.sub(loc);

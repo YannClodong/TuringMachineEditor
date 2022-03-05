@@ -74,6 +74,10 @@ export default class TurringMachine {
   }
 
   public tick() {
+    if(this.isNonDeterministic()){
+      alert("Running this machine is impossible because it is not-deterministic.")
+      return;
+    }
     const state = this.states.find(s => s.nodeName == this.statePointer)
     if(!state) throw `State ${state} don't exist.`;
 
@@ -167,5 +171,9 @@ export default class TurringMachine {
     })
     alphabet = alphabet.filter((l, i) => l != "." && alphabet.indexOf(l) == i)
     return alphabet;
+  }
+
+  public isNonDeterministic(): boolean {
+    return !!this.states.find(s => s.detectNonDeterministicTransition());
   }
 }

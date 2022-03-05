@@ -34,6 +34,16 @@ export default class State {
     throw `Deadlock state ${this.nodeName}.`;
   }
 
+  public detectNonDeterministicTransition(): boolean {
+    for(const t1 of this.transitions) {
+      for(const t2 of this.transitions) {
+        if(t1.action.conditionsIntersects(t2.action))
+          return true;
+      }
+    }
+    return false;
+  }
+
   public getSavable(): SavableState {
     return {
       nodeName: this.nodeName,

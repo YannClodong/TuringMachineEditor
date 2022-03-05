@@ -59,6 +59,7 @@ export default class Band {
   }
 
   public getSavable() {
+    // Return a simplified version of this band
     return {
       initialData: this.initialData,
       startPosition: this.startPosition

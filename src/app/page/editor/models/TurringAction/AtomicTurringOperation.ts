@@ -1,6 +1,7 @@
 import TurringMachine from "../TurringMachine";
 import {blankCharacter} from "../Turring/Band";
 
+// Generate regex for an N-band machine
 const buildRegex = (bandSize: number) => {
   const valueBand = []
   const dirBand = []
@@ -108,6 +109,18 @@ export default class AtomicTurringOperation {
       writes: this.writing,
       movements: this.movements
     }
+  }
+
+  public intersectWith(other: AtomicTurringOperation) {
+    if(other.reading.length != this.reading.length)
+      throw "Unexpected error";
+    for(let i = 0; i < this.reading.length; i++) {
+      if(other.reading[i] != this.reading[i]
+        && other.reading[i] != '.'
+        && this.reading[i] != '.')
+        return false;
+    }
+    return true;
   }
 
 
