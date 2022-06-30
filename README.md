@@ -10,5 +10,12 @@ Please click on the link bellow to see the live example.<br>
 
 ## 🚀 How to build it ?
 
-Après avoir installer angular-cli: <br>
+1. Cloner le repository: <br>
+``git clone https://github.com/YannClodong/TuringMachineEditor.git``<br>
+``cd TurringMachineEditor``
+
+2. Installation les dépendences: <br>
+``npm i``
+
+3. Lancement du projet: (nécessite angular-cli) <br>
 ``ng serve``
