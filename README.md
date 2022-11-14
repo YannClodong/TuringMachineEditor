@@ -8,6 +8,9 @@ TurringMachineEditor est un projet Angular permettant d'éditer et de simuler de
 Please click on the link bellow to see the live example.<br>
 https://turringeditor.myanime.ovh/
 
+You can found bellow an example of Turing's machine :
+https://github.com/YannClodong/TuringMachineEditor/blob/master/exemple.json
+
 ## 🚀 How to build it ?
 
 1. Cloner le repository: <br>
