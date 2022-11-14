@@ -6,7 +6,7 @@ TurringMachineEditor est un projet Angular permettant d'éditer et de simuler de
 ## 🕹️ Want to test it ?
 
 Please click on the link bellow to see the live example.<br>
-http://turringeditor.myanime.ovh/
+https://turringeditor.myanime.ovh/
 
 ## 🚀 How to build it ?
 
