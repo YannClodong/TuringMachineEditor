@@ -1,25 +1,25 @@
-# Editeur/Simulateur de machine de Turring
+# Turing's machine editor
 
 ## ❓ What is it ?
-TurringMachineEditor est un projet Angular permettant d'éditer et de simuler des machines de turring déterministe à plusieurs bandes.
+TurringMachineEditor is an Angular project for create visually deterministic Turing's machine with many bands and simulate them.
 
 ## 🕹️ Want to test it ?
 
 Please click on the link bellow to see the live example.<br>
 https://turringeditor.myanime.ovh/
 
-Ci-dessous un exemple de machine de Turing :<br>
+Please find bellow a sample of Turing machine : <br>
 https://github.com/YannClodong/TuringMachineEditor/blob/master/exemple.json<br>
-Pour l'ajouter à l'application, télécharger le fichier et charger le en utilisant le form d'upload sur la page d'accueil de l'application.
+In order to use it, download the given file and upload it on the form in the home page of the app.
 
 ## 🚀 How to build it ?
 
-1. Cloner le repository: <br>
+1. Clone the repository: <br>
 ``git clone https://github.com/YannClodong/TuringMachineEditor.git``<br>
 ``cd TurringMachineEditor``
 
-2. Installation les dépendences: <br>
+2. Install dependencies: <br>
 ``npm i``
 
-3. Lancement du projet: (nécessite angular-cli) <br>
+3. Launch the project: (require angular-cli) <br>
 ``ng serve``
