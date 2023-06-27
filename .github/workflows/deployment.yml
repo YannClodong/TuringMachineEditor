@@ -7,6 +7,8 @@ jobs:
     steps:
       - name: Checking out master branch repository
         uses: actions/checkout@v3
+        with:
+          ref: 'master'
       - name: Checking out release branch repository
         uses: actions/checkout@v3
         with:
@@ -14,7 +16,7 @@ jobs:
       - name: Merging in release branch
         run: | 
           git branch -a
-          git merge master
+          git merge origin/master
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
