@@ -5,8 +5,12 @@ jobs:
   deploy-page:
     runs-on: ubuntu-latest
     steps:
-      - name: Checking out repository
+      - name: Checking out master branch repository
         uses: actions/checkout@v3
+      - name: Checking out release branch repository
+        uses: actions/checkout@v3
+        with:
+          ref: 'release'
       - name: Merging in release branch
         run: | 
           git branch -a
