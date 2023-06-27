@@ -10,7 +10,7 @@ jobs:
       - name: Merging in release branch
         run: | 
           git branch -a
-          git checkout release
+          git checkout remotes/origin/release
           git merge master
       - name: Setup Node.js
         uses: actions/setup-node@v2
