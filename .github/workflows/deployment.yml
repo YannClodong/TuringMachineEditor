@@ -1,0 +1,25 @@
+name: Deploy to Github Pages
+run-name: ${{ github.actor }} is deploying stuff 🚀
+on: [workflow_dispatch]
+jobs:
+  deploy-page:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out repository
+        uses: actions/checkout@v3
+      - name: Merging in release branch
+        run: | 
+          git checkout release
+          git merge master
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: package.json
+      - run: npm ci
+      - run: npm run build
+      - name: Commiting release
+        run: |
+          git add ./dist --force
+          git commit -m "New release"
